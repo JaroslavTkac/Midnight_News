@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Author;
+use App\Models\News;
 use App\Models\Review;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UsersComment;
+use Illuminate\Support\Facades\Auth;
 
-class AdminReviewsController extends Controller
+class AdminCommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +19,8 @@ class AdminReviewsController extends Controller
      */
     public function index()
     {
-        return view('admin.reviews.list', array('reviews' => Review::all(), 'authors' => Author::pluck('name', 'id')));
+        return view('admin.comments.list', array('comments' => UsersComment::all(), 'users' => User::pluck('name', 'id', 'email', 'id'),
+            'reviews' => Review::pluck('title', 'id'), 'news' => News::pluck('title', 'id')));
     }
 
     /**
@@ -26,7 +30,7 @@ class AdminReviewsController extends Controller
      */
     public function create()
     {
-        return view('admin.reviews.create', array('authors' => Author::pluck('name', 'id')));
+        return view('admin.comments.create', array('reviews' => Review::pluck('title', 'id'), 'news' => News::pluck('title', 'id')));
     }
 
     /**
@@ -37,16 +41,16 @@ class AdminReviewsController extends Controller
      */
     public function store(Request $request)
     {
-        $reviews = new Review();
-        $reviews->title = $request->input('title');
-        $reviews->content = $request->input('content');
-        $reviews->author_id = $request->input('author_id');
-        $reviews->save();
-        $author = Author::find($request->input('author_id'));
-        $current_posts = $author->posts;
-        $author->posts = $current_posts + 1;
-        $author->save();
-        return redirect('admin/reviews');
+        $comment = new UsersComment();
+        $comment->comment = $request->input('comment');
+        $comment->is_review = $request->input('is_review');
+        $comment->is_news = $request->input('is_news');
+        $comment->is_trailer = $request->input('is_trailer');
+        $comment->content_id = $request->input('content_id');
+        //$comment->user_id = $request->input('user_id');
+        $comment->user_id = Auth::id();
+        $comment->save();
+        return redirect('admin/comments');
     }
 
     /**

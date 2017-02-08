@@ -16,6 +16,7 @@
                 <li><a href="{{ url('admin/reviews') }}">Edit Reviews</a></li>
                 <li><a href="{{ url('admin/latest-trailers') }}">Edit Trailers</a></li>
                 <li><a href="{{ url('admin/authors') }}">Edit Authors</a></li>
+                <li><a href="{{ url('admin/comments') }}">Clean Comments</a></li>
             </ul>
         </div>
     @endif

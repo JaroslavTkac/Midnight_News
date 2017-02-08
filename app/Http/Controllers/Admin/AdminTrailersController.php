@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Trailer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +15,7 @@ class AdminTrailersController extends Controller
      */
     public function index()
     {
-        return view('admin.trailers.list');
+        return view('admin.trailers.list', array('trailers' => Trailer::all()));
     }
 
     /**
@@ -24,7 +25,7 @@ class AdminTrailersController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.trailers.create');
     }
 
     /**
@@ -35,7 +36,12 @@ class AdminTrailersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $trailers = new Trailer();
+        $trailers->title = $request->input('title');
+        $trailers->video_url = $request->input('video_url');
+        $trailers->preview_url = $request->input('preview_url');
+        $trailers->save();
+        return redirect('admin/latest-trailers');
     }
 
     /**
@@ -46,7 +52,7 @@ class AdminTrailersController extends Controller
      */
     public function show($id)
     {
-        //
+       //
     }
 
     /**
@@ -57,7 +63,7 @@ class AdminTrailersController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.trailers.edit', array('trailer' => Trailer::find($id)));
     }
 
     /**
@@ -69,7 +75,12 @@ class AdminTrailersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $trailers = Trailer::find($id);
+        $trailers->title = $request->input('title');
+        $trailers->video_url = $request->input('video_url');
+        $trailers->preview_url = $request->input('preview_url');
+        $trailers->save();
+        return redirect('admin/latest-trailers');
     }
 
     /**
@@ -80,6 +91,7 @@ class AdminTrailersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Trailer::find($id)->delete();
+        return redirect('admin/latest-trailers');
     }
 }

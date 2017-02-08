@@ -10,7 +10,7 @@
         <br />
         {!! Form::text('name', old('name')) !!}
         <br />
-        {!! Form::submit('Saugoti') !!}
+        {!! Form::submit('Save') !!}
     {!! Form::close() !!}
 
 @stop

@@ -34,4 +34,5 @@ Route::group(array(), function() {
     Route::resource('admin/reviews', 'Admin\AdminReviewsController');
     Route::resource('admin/latest-trailers', 'Admin\AdminTrailersController');
     Route::resource('admin/authors', 'Admin\AdminAuthorsController');
+    Route::resource('admin/comments', 'Admin\AdminCommentsController');
 });

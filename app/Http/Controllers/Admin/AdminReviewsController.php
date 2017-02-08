@@ -80,7 +80,7 @@ class AdminReviewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $reviews = new Review();
+        $reviews = Review::find($id);
         $reviews->title = $request->input('title');
         $reviews->content = $request->input('content');
         $reviews->author_id = $request->input('author_id');

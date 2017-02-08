@@ -25,14 +25,23 @@ Route::get('/news', 'NewsController@index');
 Route::get('/latest-trailers', 'TrailersController@index');
 Route::get('/authors', 'AuthorController@index');
 Route::get('/logout', 'LogoutController@index');
-
 Route::get('/search_results', 'SearchController@index');
 Route::post('/search_results', 'SearchController@postSearch');
+
+
+Route::get('/review/{review_id}', 'ReviewsController@getReview');
+Route::post('/review/{review_id}', 'ReviewsController@postComment');
+Route::delete('/review/{review_id}/{comment_id}', 'ReviewsController@destroy');
+
+
+Route::get('/news/{news_id}', 'NewsController@getNews');
+Route::post('/news/{news_id}', 'NewsController@postComment');
+Route::delete('/news/{news_id}/{comment_id}', 'NewsController@destroy');
+
 
 Route::group(array(), function() {
     Route::resource('admin/news', 'Admin\AdminNewsController');
     Route::resource('admin/reviews', 'Admin\AdminReviewsController');
     Route::resource('admin/latest-trailers', 'Admin\AdminTrailersController');
     Route::resource('admin/authors', 'Admin\AdminAuthorsController');
-    Route::resource('admin/comments', 'Admin\AdminCommentsController');
 });

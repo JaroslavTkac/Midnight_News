@@ -26,7 +26,7 @@
             <li><a href="{{ url('register') }}">Register</a></li>
         </ul>
         @else
-            <p>Welcome, {{ Auth::user()->name }}</p>
+            <p>Welcome, <a href="{{ url('user/' . Auth::id()) }}">{{ Auth::user()->name }}</a></p>
             <a href="{{ url('logout') }}">Logout</a>
             <br/>
         @endif

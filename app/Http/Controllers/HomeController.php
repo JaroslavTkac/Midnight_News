@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Identity;
+use App\Models\News;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 
@@ -26,19 +28,20 @@ class HomeController extends Controller
     public function index()
     {
         $agent = new Agent();
-        $idenity = new Identity();
+        $identity = new Identity();
 
-        $idenity->os = $agent->platform();
-        $idenity->browser = $agent->browser();
+        $identity->os = $agent->platform();
+        $identity->browser = $agent->browser();
 
         if($agent->isDesktop())
-            $idenity->type = 'Destop';
+            $identity->type = 'Destop';
         if($agent->isMobile())
-            $idenity->type = 'Mobile';
+            $identity->type = 'Mobile';
         if($agent->isTablet())
-            $idenity->type = 'Tablet';
+            $identity->type = 'Tablet';
 
-        $idenity->save();
-        return view('home');
+        $identity->save();
+        return view('home', array('reviews' => Review::where('id', '>', 0 )->orderBy('created_at', 'desc')->take(10)->get(),
+            'news' => News::where('id', '>', 0 )->orderBy('created_at', 'desc')->take(10)->get()));
     }
 }

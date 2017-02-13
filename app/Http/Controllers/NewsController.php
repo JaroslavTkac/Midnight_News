@@ -17,11 +17,11 @@ class NewsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return view('news', array('news' => News::all()));
+        return view('news', array('news' => News::where('id', '>', 0 )->orderBy('created_at', 'desc')->get()));
     }
 
     public function getNews($news_id){
-        return view('selected_news', array('news' => News::find($news_id),
+        return view('single.selected_news', array('news' => News::find($news_id),
             'author' => Author::find(News::find($news_id)->author_id),
             'comments' => UsersNewsComment::where('news_id', $news_id)->get(),
             'users' => User::pluck('name', 'id')));
@@ -34,7 +34,7 @@ class NewsController extends Controller
         $comment->user_id = Auth::id();
         $comment->save();
 
-        return view('selected_news', array('news' => News::find($news_id),
+        return view('single.selected_news', array('news' => News::find($news_id),
             'author' => Author::find(News::find($news_id)->author_id),
             'comments' => UsersNewsComment::where('news_id', $news_id)->get(),
             'users' => User::pluck('name', 'id')));

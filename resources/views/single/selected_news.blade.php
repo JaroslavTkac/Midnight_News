@@ -6,7 +6,14 @@
 
     <h1>{{ $news->title }}</h1>
     <h4>Author: <a href="{{ '/authors/' . $author->id }}">{{ $author->name }}</a></h4>
-    <p>{{ $news->content }}</p>
+    <?php
+    $string = $news->content;
+    $paragraphs = explode(PHP_EOL, $string);
+    ?>
+
+    @foreach($paragraphs as $paragraph)
+        <p>{{ $paragraph }}</p>
+    @endforeach
 
     <h3>Comments</h3>
     @if (count($comments) === 0)

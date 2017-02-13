@@ -4,9 +4,9 @@
 @section('content')
 
 
-    <h1>{{ $review->title }}</h1>
-    <h4>Author: <a href="{{ '/authors/' . $author->id }}">{{ $author->name }}</a></h4>
-    <p>{{ $review->content }}</p>
+    <h1>{{ $trailer->title }}</h1>
+    <h3>{{ $trailer->video_url }}</h3>
+    <img src="{{ url($trailer->preview_url) }}" alt="Call of Duty">
 
     <h3>Comments</h3>
     @if (count($comments) === 0)
@@ -16,18 +16,18 @@
             <h3><a href="{{ '/user_comments/'. $comment->user_id }}">{{ $users->get($comment->user_id) }}</a></h3>
             <p>{{ $comment->comment }}</p>
             @if (Auth::check() && Auth::user()->isAdmin())
-            {!! Form::open(['action' => ['ReviewsController@destroy', $review->id, $comment->id], 'method' => 'DELETE', 'style' => 'display:inline' ]) !!}
+                {!! Form::open(['action' => ['TrailersController@destroy', $trailer->id, $comment->id], 'method' => 'DELETE', 'style' => 'display:inline' ]) !!}
                 {!! Form::submit('Delete') !!}
-            {!! Form::close() !!}
+                {!! Form::close() !!}
             @endif
         @endforeach
     @endif
 
     @if (Auth::check())
-        {!! Form::open(['url' => '/review/' . $review->id]) !!}
-            {!! Form::textarea('comment', old('comment')) !!}
-            <br />
-            {!! Form::submit('Add') !!}
+        {!! Form::open(['url' => '/latest-trailers/' . $trailer->id]) !!}
+        {!! Form::textarea('comment', old('comment')) !!}
+        <br />
+        {!! Form::submit('Add') !!}
         {!! Form::close() !!}
     @endif
 
